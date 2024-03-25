@@ -42,7 +42,7 @@ def update_readme(notebooks_list):
     new_readme_content = (readme_content[:start_index] + "\n" + notebooks_list + "\n" + readme_content[end_index:])
 
     # Update the README file
-    repo.update_file(content_file.path, "Update projects list in README", new_readie_content, content_file.sha)
+    repo.update_file(content_file.path, "Update projects list in README", new_readme_content, content_file.sha)
 
 # Get the list of notebooks and update the README
 notebooks_list = list_notebooks()
