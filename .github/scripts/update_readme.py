@@ -1,6 +1,5 @@
 from github import Github
 import os
-import base64
 
 # Initialize GitHub API
 g = Github(os.getenv('GITHUB_TOKEN'))
@@ -9,7 +8,7 @@ repo = g.get_repo(f"{os.getenv('GITHUB_REPOSITORY')}")
 def list_notebooks():
     """
     List all Jupyter notebooks in the repository.
-    Returns a Markdown list of links to the notebooks.
+    Returns a Markdown list of links to the notebooks, formatted as requested.
     """
     notebooks = []
     contents = repo.get_contents("")  # Start at repo root
@@ -18,7 +17,9 @@ def list_notebooks():
         if file_content.type == "dir":
             contents.extend(repo.get_contents(file_content.path))
         elif file_content.path.endswith(".ipynb"):
-            notebooks.append(f"[{file_content.name}]({file_content.html_url})")
+            # Remove the .ipynb extension and capitalize the first letter
+            formatted_name = file_content.name[:-6].capitalize()
+            notebooks.append(f"- [{formatted_name}]({file_content.html_url})")
     
     return "\n".join(notebooks)
 
